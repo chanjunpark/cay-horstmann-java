@@ -51,3 +51,40 @@
     ```
   - 만약 두 메서드 중 하나만 기본 메서드로 구현되어 있다면, 기본 메서드를 상속 받을까? 아니다. 컴파일러는 오류를 보고하며, 모호성을 해결하는 일은 개발자의 책임이다.
 #### 인터페이스의 예
+- 이 책에서 예를 든 인터페이스에는 Comparable, Comparator, Runnable 등이 있다.
+- Runnable
+  - 특정 작업을 별도의 스레드에서 실행하거나 실행 스레드 풀에 넣으려고 할 때, 이러한 작업을 정의하려면 Runnable 인터페이스를 구현해야 한다. Runnable 인터페이스는 메서드를 한 개만 갖는다.
+  ```java
+  Class HelloTask implements Runnable {
+    public void run() {
+      for ( int i = 0; i < 1000; i++) {
+        System.out.println("Hello, World!"
+      }
+    }
+  }
+  
+  Runnable Task = new HelloTask();
+  Thread thread = new Thread(task);
+  thread.start();
+  ```
+#### 람다 표현식
+- 자바에는 함수 타입이 없다. 대신 함수를 객체로 표현한다. 다시 말해, 특정 인터페이스를 구현하는 클래스의 인스턴스로 표현한다. 람다표현식은 이런 인스턴스를 생성하는 편리한 문법을 제공한다.
+- 람다 표현식 문법은 다음과 같다.
+```java
+(String first, String second) -> first.length() - second.length();
+```
+- 람다 표현식의 결과 타입은 명시하지 않는다. 하지만 컴파일러는 구현부로부터 결과 타입을 추론해서 기대하는 타입과 일치하는지 검사한다.
+- 람다 표현식은 추상 메서드가 한 개만 포함된 인터페이스에만 사용할 수 있는데, 이러한 인터페이스를 함수형 인터페이스라고 한다.
+  - Runnable이나 Comparator처럼 액션을 표현하는 인터페이스와 호환된다.
+  - 함수형 인터페이스 변환 예시) Arrays.sort 메서드의 두 번째 파라미터는 Comparator 인터페이스의 인스턴스가 필요하다. Comparator의 메서드가 하나만 있다. 이 때 두 번째 파라미터로 다음과 같이 람다를 전달할 수 있다.
+  ```java
+  Arrays.sort(words, (first, second) -> first.length() - second.length());
+  ```
+- Object 타입은 자바에서 모든 클래스의 슈퍼타입인데, 람다 표현식은 Object 타입 변수에 저장할 수 없다. Object는 함수형 인터페이스가 아니라 클래스이기 때문이다.
+#### 메서드 참조와 생성자 참조
+
+
+
+
+
+***
