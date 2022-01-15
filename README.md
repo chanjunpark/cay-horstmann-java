@@ -55,7 +55,7 @@
 - Runnable
   - 특정 작업을 별도의 스레드에서 실행하거나 실행 스레드 풀에 넣으려고 할 때, 이러한 작업을 정의하려면 Runnable 인터페이스를 구현해야 한다. Runnable 인터페이스는 메서드를 한 개만 갖는다.
   ```java
-  Class HelloTask implements Runnable {
+  class HelloTask implements Runnable {
     public void run() {
       for ( int i = 0; i < 1000; i++) {
         System.out.println("Hello, World!"
@@ -83,6 +83,53 @@
 - Object 타입은 자바에서 모든 클래스의 슈퍼타입인데, 람다 표현식은 Object 타입 변수에 저장할 수 없다. Object는 함수형 인터페이스가 아니라 클래스이기 때문이다.
 #### 메서드 참조와 생성자 참조
 
+
+***
+## Chapter 4. Extends and Reflection
+#### 클래스 확장하기
+- 오버라이딩과 오버로딩
+    - 오버라이딩(@Override) : 서브클래스에서 수퍼클래스 메서드를 수정해야 할 때 사용한다. 어노테이션을 붙여 선언하면 된다.
+    - 오버로딩 :
+- final (최종) 키워드
+    - 메서드를 final로 선언하는 경우 해당 메서드를 오버라이드 할 수 없고, 클래스를 final로 선언하는 경우 더 이상 해당 클래스의 서브 클래스를 만들 수 없다.
+    - final 메서드의 가장 대표적인 예는 Object 클래스의 getClass 메서드로, final로 선언하지 않는다면 객체가 자신이 속한 클래스를 속이는 상황이 생길 수 있다. 또한 final 클래스의 대표적인 예로는 String, LocalTime, URL 등이 있다.
+- abstract (추상) 키워드
+    - 클래스는 구현이 없는 메서드를 정의해서 서브클래스가 해당 메서드를 구현하도록 강제할 수 있다. 이렇게 구현이 없는 메서드를 추상 메서드라고 하며 추상 메서드가 포함된 클래스를 추상 클래스라고 한다. 추상 클래스에는 비추상 메서드를 포함할 수 있다.
+        
+        ```java
+        public abstract class Person {
+        	private String name;
+        
+        	public Person(String name) { this.name = name; } // 생성자
+        
+        	public final String getName() { return name; } // 일반(비추상) 메서드
+        
+        	public abstract int getID(); // 추상 메서드
+        
+        }
+        ```
+        
+    - 추상 클래스는 인터페이스와 달리 인스턴스 변수와 생성자를 가질 수 있다.
+    - 인터페이스와 마찬가지로 인스턴스는 생성할 수 없다.
+    - 서브 클래스의 객체 참조를 담는 경우 변수 선언이 가능하다.
+- protected(보호) 키워드
+    - 자바에서 protected 의 접근 권한은 패키지 수준이다. 그러므로 다른 패키지에서 시도하는 접근만 보호한다.
+- 충돌 문제
+    - 같은 메서드를 갖는 클래스와 인터페이스를 상속받아 구현하는 클래스가 있는 경우, 항상 인터페이스 구현보다 슈퍼클래스 구현이 우선한다. 그러므로 서브클래스에서 충돌을 해결할 필요가 없다.
+        ```java
+        public interface Named {
+          default String getName() { return ""; }
+        }
+        
+        public class Person {
+          ...
+          public String getName() { return name; }
+        }
+        
+        public class Student extends Person implements Named {
+          ...
+        }
+        ```
 
 
 
